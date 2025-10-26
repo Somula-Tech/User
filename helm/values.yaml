@@ -6,8 +6,8 @@ image:
   tag: latest
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: "user"
+fullnameOverride: "user-app"
 
 service:
   type: LoadBalancer
