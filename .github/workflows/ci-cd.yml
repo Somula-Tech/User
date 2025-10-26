@@ -83,11 +83,7 @@ jobs:
         run: |
           aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }}
 
-      # Step 12: Verify aws-auth ConfigMap (debug)
-      - name: Check aws-auth ConfigMap
-        run: |
-          echo "Printing aws-auth ConfigMap to verify GitHub Actions IAM user:"
-          kubectl get configmap aws-auth -n kube-system -o yaml
+
 
       # Step 12: Ensure GitHub Actions IAM user exists in aws-auth (idempotent)
       - name: Ensure IAM user in aws-auth
