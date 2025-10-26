@@ -1,4 +1,4 @@
-name: CI - Build & Push to ECR
+name: CI/CD - Build & Push to ECR and deploy in EKS
 
 on:
   push:
@@ -56,14 +56,25 @@ jobs:
           docker tag $ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      # 🧩 Step 7: Install kubectl
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+
+      # 🧩 Step 8: Install Helm
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash    
 
 
-      # Step 10: Configure kubectl for EKS
+      # Step 9: Configure kubectl for EKS
       - name: Configure kubectl
         run: |
           aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }}
 
-      # Step 11: Deploy with Helm
+      # Step 10: Deploy with Helm
       - name: Deploy to EKS with Helm
         run: |
           helm upgrade --install user ./helm \
