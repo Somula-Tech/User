@@ -57,9 +57,24 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-      # 📦 Optional: Upload artifact (JAR)
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: springboot-jar
-          path: target/*.jar
+
+      # Step 10: Configure kubectl for EKS
+      - name: Configure kubectl
+        run: |
+          aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }}
+
+      # Step 11: Deploy with Helm
+      - name: Deploy to EKS with Helm
+        run: |
+          helm upgrade --install user ./helm \
+            --namespace ${{ secrets.K8S_NAMESPACE }} \
+            --set image.repository=${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }} \
+            --set image.tag=latest
+  
+
+
+
+
+
+
+
