@@ -103,7 +103,7 @@ jobs:
             echo "Adding IAM user to aws-auth"
             eksctl create iamidentitymapping \
               --cluster curious-funk-painting \
-              --arn arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:user/user \
+              --arn arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:root \
               --username admin \
               --group system:masters
           fi
