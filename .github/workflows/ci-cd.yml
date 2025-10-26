@@ -87,6 +87,20 @@ jobs:
           echo "Printing aws-auth ConfigMap to verify GitHub Actions IAM user:"
           kubectl get configmap aws-auth -n kube-system -o yaml
 
+      # Step 12: Ensure GitHub Actions IAM user exists in aws-auth (idempotent)
+      - name: Ensure IAM user in aws-auth
+        run: |
+          # Check if user exists
+          if kubectl get configmap aws-auth -n kube-system -o yaml | grep "arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:user/user"; then
+            echo "IAM user already exists in aws-auth"
+          else
+            echo "Adding IAM user to aws-auth"
+            eksctl create iamidentitymapping \
+              --cluster curious-funk-painting \
+              --arn arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:user/user \
+              --username user \
+              --group system:masters
+          fi
       # Step 10: Deploy with Helm
       - name: Deploy to EKS with Helm
         run: |
