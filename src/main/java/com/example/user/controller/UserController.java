@@ -11,6 +11,6 @@ public class UserController {
 
     @GetMapping(value = "/users")
     public ResponseEntity<String> userProfile(){
-        return ResponseEntity.ok("Successfully fetched the all Users");
+        return ResponseEntity.ok("Successfully fetched the Users");
     }
 }
