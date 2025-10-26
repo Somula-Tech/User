@@ -69,6 +69,14 @@ jobs:
       - name: Install Helm
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      # Step: Install eksctl
+      - name: Install eksctl
+        run: |
+          curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+          sudo mv /tmp/eksctl /usr/local/bin
+          eksctl version
+
       # Step 10: Configure AWS credentials
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
