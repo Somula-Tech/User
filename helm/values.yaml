@@ -9,5 +9,5 @@ service:
   type: ClusterIP
   port: 80
 
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: "myapp"
+fullnameOverride: "myrelease-myapp"
