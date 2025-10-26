@@ -78,7 +78,7 @@ jobs:
       - name: Deploy to EKS with Helm
         run: |
           helm upgrade --install user ./helm \
-            --namespace ${{ secrets.K8S_NAMESPACE }} \
+            --namespace default \
             --set image.repository=${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }} \
             --set image.tag=latest
   
