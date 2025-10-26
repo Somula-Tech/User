@@ -104,7 +104,7 @@ jobs:
             eksctl create iamidentitymapping \
               --cluster curious-funk-painting \
               --arn arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:user/user \
-              --username user \
+              --username admin \
               --group system:masters
           fi
       # Step 10: Deploy with Helm
