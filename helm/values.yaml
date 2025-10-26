@@ -1,0 +1,31 @@
+replicaCount: 1
+
+image:
+  repository: 574334111457.dkr.ecr.us-east-1.amazonaws.com/user
+  pullPolicy: IfNotPresent
+  tag: latest
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: LoadBalancer
+  port: 8080
+  targetPort: 8080
+
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "500m"
+  limits:
+    memory: "1Gi"
+    cpu: "1"
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+env:
+  - name: SPRING_PROFILES_ACTIVE
+    value: "prod"
